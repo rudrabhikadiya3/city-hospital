@@ -9,6 +9,7 @@ import About from './container/About';
 import Contact from './container/Contact';
 import {Switch} from 'react-router-dom';
 import {Route} from 'react-router-dom';
+import Login from './container/Login';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path='/Doctors' exact component={Doctors} />
           <Route path='/About' exact component={About} />
           <Route path='/Contact' exact component={Contact} />
+          <Route path='/Login' exact component={Login} />
         </Switch>
       <Footer />
     </>
