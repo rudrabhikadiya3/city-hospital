@@ -1752,3 +1752,26 @@ section {
 .main-header {
   height: 138px;
 }
+
+.appointment .php-email-form .signup-link a:hover{
+  display: block;
+  text-align: left;
+    text-decoration: underline;
+    opacity: 1;
+    cursor: pointer;
+    color: #FF6337;
+}
+.mx-auto{
+    margin: 0 auto;
+}
+
+.appointment .php-email-form .signup-link:first-child a{
+  font-size: 14px;
+  justify-self: flex-start;
+}
+.appointment .php-email-form .signup-link {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+
+}
