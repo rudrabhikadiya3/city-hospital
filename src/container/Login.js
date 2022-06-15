@@ -48,10 +48,7 @@ function Login(props) {
 
                         {
                             userType === 'password' ?
-                                <div className='signup-link col-4'>
-                                    <a className='d-inline-block' onClick={() => setUsertype('login')}></a>
-                                </div>
-                        
+                                null
                              :
                             userType === 'login' ?
                                 <div className='signup-link text-center col-4' >
