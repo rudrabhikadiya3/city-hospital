@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 function Contact(props) {
+    const nameRef = useRef();
+    const mailRef = useRef();
+    const subRef = useRef();
+
+    const getVal = () =>{
+        console.log(nameRef.current.value);
+        console.log(mailRef.current.value);
+        subRef.current.focus()
+        subRef.current.style.background = '#FF63375e';
+    }
+    
     return (
         <main>
             <section id="contact" className="contact">
@@ -34,28 +45,28 @@ function Contact(props) {
                             </div>
                         </div>
                         <div className="col-lg-8 mt-5 mt-lg-0">
-                            <form action method="post" role="form" className="php-email-form">
+                            <div action method="post" role="form" className="php-email-form">
                                 <div className="row">
                                     <div className="col-md-6 form-group">
-                                        <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" required />
+                                        <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" ref={nameRef}/>
                                     </div>
                                     <div className="col-md-6 form-group mt-3 mt-md-0">
-                                        <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" required />
+                                        <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" ref={mailRef}/>
                                     </div>
                                 </div>
                                 <div className="form-group mt-3">
-                                    <input type="text" className="form-control" name="subject" id="subject" placeholder="Subject" required />
+                                    <input type="text" className="form-control" name="subject" id="subject" placeholder="Subject" ref={subRef} />
                                 </div>
                                 <div className="form-group mt-3">
-                                    <textarea className="form-control" name="message" rows={5} placeholder="Message" required defaultValue={""} />
+                                    <textarea className="form-control" name="message" rows={5} placeholder="Message" defaultValue={""} />
                                 </div>
                                 <div className="my-3">
                                     <div className="loading">Loading</div>
                                     <div className="error-message" />
                                     <div className="sent-message">Your message has been sent. Thank you!</div>
                                 </div>
-                                <div className="text-center"><button type="submit">Send Message</button></div>
-                            </form>
+                                <div className="text-center"><button type="submit" onClick={()=>{getVal()}}>Send Message</button></div>
+                            </div>
                         </div>
                     </div>
                 </div>
