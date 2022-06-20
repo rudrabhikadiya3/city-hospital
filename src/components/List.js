@@ -9,7 +9,7 @@ function List(props) {
                     {
                         props.data.map((o, i) => {
                             return (
-                                    <Card className='col-11 key={i}'
+                                    <Card className='me-3 ' key={i}
                                     >
                                         <CardBody>
                                             <CardTitle tag="h5">
@@ -30,7 +30,7 @@ function List(props) {
                                             <CardText>
                                                 Some quick example text to build on the card title and make up the bulk of the card's content.
                                             </CardText>
-                                            <Button onClick={() => props.onButton(o.id)}>
+                                            <Button onClick={() => props.onButton(o.id)} className="medicine-id-button rounded-pill border-0">
                                                 Get id
                                             </Button>
                                         </CardBody>

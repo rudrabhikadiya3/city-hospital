@@ -1775,3 +1775,9 @@ section {
   justify-content: space-between;
 
 }
+.medicine-id-button{
+  background-color: #FF6337;
+}
+.medicine-id-button:hover{
+  background-color: #1c84e3;
+}
