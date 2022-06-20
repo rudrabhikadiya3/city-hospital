@@ -3,24 +3,47 @@ import * as yup from 'yup';
 import { Formik, Form, useFormik } from 'formik';
 
 function Login(props) {
-    const [userType, setUsertype] = useState('login')
+    const [userType, setUsertype] = useState('login');
 
-    let schema = yup.object().shape({
-        email: yup.string().required("email is required").email('enter valid email'),
-        password: yup.string().required('password is required'),
-    });
-   
+    let schemaObj, inintVal;
+
+    if (userType === 'login') {
+        schemaObj = {
+            email: yup.string().required("email is requiredl").email('enter valid email'),
+            password: yup.string().required('password is required'),
+        }
+        inintVal = {
+            email: '',
+            password: '',
+        }
+
+    } else if (userType === 'signup') {
+        schemaObj = {
+            name: yup.string().required("Name is required"),
+            email: yup.string().required("email is requireds").email('enter valid email'),
+            password: yup.string().required('password is required'),
+        }
+        inintVal = {
+            name: '',
+            email: '',
+            password: ''
+        }
+    }
+
+    let schema = yup.object().shape(schemaObj);
+
     const formik = useFormik({
-        initialValues: {
-          email: '',
-          password: ''
-        },
-        validationSchema : schema,
+        // initialValues: {
+        //   email: '',
+        //   password: ''
+        // },
+        initialValues: inintVal,
+        validationSchema: schema,
         onSubmit: values => {
-          alert(JSON.stringify(values, null, 2));
+            alert(JSON.stringify(values, null, 2));
         },
-      });
-    const {errors,handleBlur, handleChange, handleSubmit} = formik;
+    });
+    const { errors, handleBlur, handleChange, handleSubmit, touched } = formik;
 
     return (
         <section id="appointment" className="appointment">
@@ -40,30 +63,103 @@ function Login(props) {
                             {
                                 userType === 'login' || userType === 'password' ?
                                     <div className="col-md-4 form-group row mx-auto">
-                                        <input type="text" name="email" className="form-control" placeholder="Registerd email" onChange={handleChange} />
-                                        <span className='text-danger m-0 fs-6 p-0'>{errors.email}</span>
+                                        <input
+                                            type="text"
+                                            name="email"
+                                            className="form-control"
+                                            placeholder="Registerd email"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+                                        {
+                                        errors.email && touched.email ? <span className='error'>{errors.email}</span> : ''
+                                        }
+                                        
                                     </div>
                                     :
-                                    <div className="col-md-4 form-group row mx-auto">
-                                        <input type="text" name="name" className="form-control" id="name" placeholder="Name" />
-                                    </div>
+                                    <>
+                                        <div className="col-md-4 form-group row mx-auto">
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                className="form-control"
+                                                id="name"
+                                                placeholder="Name"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                            />
+                                            {
+                                                errors.name && touched.name ? 
+                                                <span className='error'>{errors.name}</span> :
+                                                ''
+                                            }
+                                            
+                                        </div>
+                                    </>
                             }
 
                             {
                                 userType === 'password' ?
                                     <div className="col-md-4 form-group mt-3 mt-md-0 row mx-auto">
-                                        <input type="password" className="form-control" name="password" id="password" placeholder="Client ID" />
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            name="password"
+                                            id="password"
+                                            placeholder="Client ID"
+                                        />
                                     </div> :
                                     userType === 'login' ?
                                         <div className="col-md-4 form-group mt-3 mt-md-0 row mx-auto">
-                                            <input type="password" className="form-control" name="password" id="password" placeholder="password" />
-                                            <span className='text-danger m-0 fs-6 p-0'>{errors.password}</span>
+
+                                            <input
+                                                type="password"
+                                                className="form-control"
+                                                name="password"
+                                                id="password" placeholder="password"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                            />
+                                            {
+                                                errors.password && touched.password ? 
+                                                <span className='error'>{errors.password}</span> :
+                                                ''
+                                            }
+                                            
+
                                         </div>
                                         :
                                         <div className="col-md-4 form-group mt-3 mt-md-0 row mx-auto">
-                                            <input type="mail" name="mail" className="form-control" id="mail" placeholder="Email" />
-                                            <input type="password" name="password" className="form-control mt-2" id="password" placeholder="Create new password" />
-                                            <input type="password" name="password" className="form-control mt-2" id="password" placeholder="Confirm password" />
+
+                                            <input
+                                                type="text"
+                                                name="email"
+                                                className="form-control"
+                                                id="mail"
+                                                placeholder="Email"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                            />
+                                             {
+                                                errors.email && touched.email ? 
+                                                <span className='error'>{errors.email}</span> :
+                                                ''
+                                            }
+                                           
+
+                                            <input
+                                                type="password"
+                                                name="password"
+                                                className="form-control mt-2"
+                                                id="password"
+                                                placeholder="Create new password"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                            />
+                                            {
+                                                errors.password && touched.password ? 
+                                                <span className='error'>{errors.password}</span> : ''
+                                            }
                                         </div>
 
                             }

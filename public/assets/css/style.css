@@ -1775,3 +1775,8 @@ section {
   justify-content: space-between;
 
 }
+.error{
+  font-size: 12px;
+  color: red;
+  padding: 0;
+}
