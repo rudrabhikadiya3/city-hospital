@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom'
+import {NavLink , Link} from 'react-router-dom'
 
 function Header(props) {
     return (
@@ -21,10 +21,10 @@ function Header(props) {
             <header id="header" className="fixed-top">
                 <div className="container d-flex align-items-center">
                     <div className="logo">
-                        <a href="index.html">
+                        <Link to="/">
                             <h1 className="logo me-auto">City</h1><br />
                             <h2 className="logo-tiny-text me-auto">Multispeciality Hospital</h2>
-                        </a>
+                        </Link>
                     </div>
                     <nav id="navbar" className="navbar order-last order-lg-0">
                         <ul>
@@ -36,7 +36,7 @@ function Header(props) {
                         </ul>
                         <i className="bi bi-list mobile-nav-toggle" />
                     </nav>
-                    <NavLink to="/appointment.html" className="appointment-btn scrollto"><span className="d-none d-md-inline">Make an </span>
+                    <NavLink to="/appointment" className="appointment-btn scrollto"><span className="d-none d-md-inline">Make an </span>
                         Appointment</NavLink>
                     <NavLink to="/login" className="appointment-btn scrollto">
                         <span className="d-md-inline">Login/ Signup</span>
