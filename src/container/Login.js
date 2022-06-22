@@ -33,7 +33,19 @@ function Login(props) {
       email: "",
       password: "",
     };
+  } else if (userType === "password") {
+    schemaObj = {
+      email: yup
+        .string()
+        .required("email is required")
+        .email("enter valid email"),
+      password: yup.string().required("password is required"),
+    };
+    inintVal = {
+      email: "",
+    };
   }
+
   let schema = yup.object().shape(schemaObj);
 
   const formik = useFormik({
@@ -46,28 +58,27 @@ function Login(props) {
     },
     enableReinitialize: true,
   });
-  const { errors, handleBlur, handleChange, handleSubmit, touched, values } =
-    formik;
+  const { errors, handleBlur, handleChange, handleSubmit, touched, values } = formik;
 
   return (
     <section id="appointment" className="appointment">
       <div className="container">
         <div className="section-title">
-          {userType === "password" ? (
+          {userType === "password" ?  
             <h2>Reset password</h2>
-          ) : userType === "login" ? (
+           : userType === "login" ? 
             <h2>Login</h2>
-          ) : (
+           : 
             <h2>Sign Up</h2>
-          )}
+          }
         </div>
         <Formik values={formik}>
           <Form className="php-email-form" onSubmit={handleSubmit}>
             <div>
-              {userType === "login" || userType === "password" ? (
+              {userType === "login" || userType === "password" ? 
                 <div className="col-md-4 form-group row mx-auto">
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     className="form-control"
                     placeholder="Registerd email"
@@ -75,45 +86,32 @@ function Login(props) {
                     onBlur={handleBlur}
                     value={values.email}
                   />
-                  {errors.email && touched.email ? (
-                    <span className="error">{errors.email}</span>
-                  ) : (
-                    ""
-                  )}
+                  {errors.email && touched.email ? 
+                    <span className="error">{errors.email}</span> : ""}
                 </div>
-              ) : (
+               : 
                 <>
                   <div className="col-md-4 form-group row mx-auto">
                     <input
                       type="text"
                       name="name"
                       className="form-control"
-                      id="name"
                       placeholder="Name"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.name}
                     />
-                    {errors.name && touched.name ? (
+                    {errors.name && touched.name ? 
                       <span className="error">{errors.name}</span>
-                    ) : (
+                     : 
                       ""
-                    )}
+                    }
                   </div>
                 </>
-              )}
+              }
 
-              {userType === "password" ? (
-                <div className="col-md-4 form-group mt-3 mt-md-0 row mx-auto">
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    id="password"
-                    placeholder="Client ID"
-                  />
-                </div>
-              ) : userType === "login" ? (
+              {userType === "password" ? null 
+              : userType === "login" ? (
                 <div className="col-md-4 form-group mt-3 mt-md-0 row mx-auto">
                   <input
                     type="password"
@@ -143,11 +141,11 @@ function Login(props) {
                     onBlur={handleBlur}
                     value={values.email}
                   />
-                  {errors.email && touched.email ? (
+                  {errors.email && touched.email ? 
                     <span className="error">{errors.email}</span>
-                  ) : (
+                   : 
                     ""
-                  )}
+                  }
 
                   <input
                     type="password"
