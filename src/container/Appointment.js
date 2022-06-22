@@ -15,11 +15,12 @@ function Appointment(props) {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
+      name: "",
       email: "",
       phone: "",
       date:"",
-      department: ""
+      department: "",
+      message: ''
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -119,7 +120,7 @@ function Appointment(props) {
                   className="form-control"
                   name="message"
                   rows={5}
-                  placeholder="Message (Optional)"
+                  placeholder="Message"
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
