@@ -5,13 +5,15 @@ import { Formik, Form, useFormik } from "formik";
 function Login(props) {
   const [userType, setUsertype] = useState("login");
 
+
+  // form validation
   let schemaObj, inintVal;
 
   if (userType === "login") {
     schemaObj = {
       email: yup
         .string()
-        .required("email is requiredl")
+        .required("email is required")
         .email("enter valid email"),
       password: yup.string().required("password is required"),
     };
@@ -24,7 +26,7 @@ function Login(props) {
       name: yup.string().required("Name is required"),
       email: yup
         .string()
-        .required("email is requireds")
+        .required("email is required")
         .email("enter valid email"),
       password: yup.string().required("password is required"),
     };
@@ -34,7 +36,6 @@ function Login(props) {
       password: "",
     };
   } else if (userType === "password") {
-    console.log('ss');
     schemaObj = {
       email: yup
         .string()
@@ -48,34 +49,48 @@ function Login(props) {
 
   let schema = yup.object().shape(schemaObj);
 
+  // to local storage
+  const handleData = (values) => {
+    let localdata = JSON.parse(localStorage.getItem('login'));
+
+    if (localdata === null) {
+      localStorage.setItem('login', JSON.stringify([values]));
+    } else {
+      localdata.push(values);
+      localStorage.setItem('login', JSON.stringify(localdata));
+    }
+  }
+
   const formik = useFormik({
     initialValues: inintVal,
     validationSchema: schema,
     onSubmit: (values, action) => {
       alert(JSON.stringify(values, null, 2));
-      // console.log(action);
       action.resetForm();
+      handleData(values)
     },
     enableReinitialize: true,
   });
   const { errors, handleBlur, handleChange, handleSubmit, touched, values } = formik;
 
+
+
   return (
     <section id="appointment" className="appointment">
       <div className="container">
         <div className="section-title">
-          {userType === "password" ?  
+          {userType === "password" ?
             <h2>Reset password</h2>
-           : userType === "login" ? 
-            <h2>Login</h2>
-           : 
-            <h2>Sign Up</h2>
+            : userType === "login" ?
+              <h2>Login</h2>
+              :
+              <h2>Sign Up</h2>
           }
         </div>
         <Formik values={formik}>
           <Form className="php-email-form" onSubmit={handleSubmit}>
             <div>
-              {userType === "login" || userType === "password" ? 
+              {userType === "login" || userType === "password" ?
                 <div className="col-md-4 form-group row mx-auto">
                   <input
                     type="email"
@@ -86,10 +101,10 @@ function Login(props) {
                     onBlur={handleBlur}
                     value={values.email}
                   />
-                  {errors.email && touched.email ? 
+                  {errors.email && touched.email ?
                     <span className="error">{errors.email}</span> : ""}
                 </div>
-               : 
+                :
                 <>
                   <div className="col-md-4 form-group row mx-auto">
                     <input
@@ -101,69 +116,69 @@ function Login(props) {
                       onBlur={handleBlur}
                       value={values.name}
                     />
-                    {errors.name && touched.name ? 
+                    {errors.name && touched.name ?
                       <span className="error">{errors.name}</span>
-                     : 
+                      :
                       ""
                     }
                   </div>
                 </>
               }
 
-              {userType === "password" ? null 
-              : userType === "login" ? (
-                <div className="col-md-4 form-group mt-3 mt-md-0 row mx-auto">
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    id="password"
-                    placeholder="password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                  />
-                  {errors.password && touched.password ? (
-                    <span className="error">{errors.password}</span>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              ) : (
-                <div className="col-md-4 form-group mt-3 mt-md-0 row mx-auto">
-                  <input
-                    type="text"
-                    name="email"
-                    className="form-control"
-                    id="mail"
-                    placeholder="Email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                  />
-                  {errors.email && touched.email ? 
-                    <span className="error">{errors.email}</span>
-                   : 
-                    ""
-                  }
+              {userType === "password" ? null
+                : userType === "login" ? (
+                  <div className="col-md-4 form-group mt-3 mt-md-0 row mx-auto">
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="password"
+                      id="password"
+                      placeholder="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                    />
+                    {errors.password && touched.password ? (
+                      <span className="error">{errors.password}</span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                ) : (
+                  <div className="col-md-4 form-group mt-3 mt-md-0 row mx-auto">
+                    <input
+                      type="text"
+                      name="email"
+                      className="form-control"
+                      id="mail"
+                      placeholder="Email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                    />
+                    {errors.email && touched.email ?
+                      <span className="error">{errors.email}</span>
+                      :
+                      ""
+                    }
 
-                  <input
-                    type="password"
-                    name="password"
-                    className="form-control mt-2"
-                    id="password"
-                    placeholder="Create new password"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.password}
-                  />
-                  {errors.password && touched.password ? (
-                    <span className="error">{errors.password}</span>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              )}
+                    <input
+                      type="password"
+                      name="password"
+                      className="form-control mt-2"
+                      id="password"
+                      placeholder="Create new password"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.password}
+                    />
+                    {errors.password && touched.password ? (
+                      <span className="error">{errors.password}</span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                )}
 
               {userType === "password" ? null : userType === "login" ? (
                 <div className="signup-link text-center col-4">
