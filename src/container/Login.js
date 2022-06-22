@@ -34,12 +34,12 @@ function Login(props) {
       password: "",
     };
   } else if (userType === "password") {
+    console.log('ss');
     schemaObj = {
       email: yup
         .string()
         .required("email is required")
         .email("enter valid email"),
-      password: yup.string().required("password is required"),
     };
     inintVal = {
       email: "",
