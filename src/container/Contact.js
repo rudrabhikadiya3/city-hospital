@@ -1,17 +1,39 @@
 import React, { useRef } from 'react';
-
+import * as yup from "yup";
+import { Formik, Form, useFormik } from "formik";
 function Contact(props) {
+    // useRef hook (past practices)
     const nameRef = useRef();
     const mailRef = useRef();
     const subRef = useRef();
 
-    const getVal = () =>{
-        console.log(nameRef.current.value);
-        console.log(mailRef.current.value);
+    const getVal = () => {
+        console.log(nameRef.current.value + ' ' + mailRef.current.value);
         subRef.current.focus()
         subRef.current.style.background = '#FF63375e';
     }
-    
+    // validate form
+    const schema = yup.object().shape({
+        name: yup.string().required('Please enter a name'),
+        email: yup.string().required('Please enter an Email').email("Please enter a valid Email address"),
+        subject: yup.string().required('Please enter subject'),
+        message: yup.string().required('Please enter message').min(50, 'please enter atleast 50 characters'),
+    });
+
+    const formikObj = useFormik({
+        initialValues: {
+            name: "",
+            email: "",
+            subject: "",
+            message: "",
+        },
+        validationSchema: schema,
+        onSubmit: (values) => {
+            alert(JSON.stringify(values, null, 2));
+        },
+    });
+
+    const { handleBlur, handleChange, handleSubmit, values, errors, touched } = formikObj;
     return (
         <main>
             <section id="contact" className="contact">
@@ -45,28 +67,38 @@ function Contact(props) {
                             </div>
                         </div>
                         <div className="col-lg-8 mt-5 mt-lg-0">
-                            <div action method="post" role="form" className="php-email-form">
-                                <div className="row">
-                                    <div className="col-md-6 form-group">
-                                        <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" ref={nameRef}/>
+                            <Formik>
+                                <Form action method="post" role="form" className="php-email-form" onSubmit={handleSubmit}>
+                                    <div className="row">
+                                        <div className="col-md-6 form-group">
+                                            <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" ref={nameRef} onChange={handleChange}
+                                                onBlur={handleBlur} />
+                                            {touched.name && errors.name ? <span className='error'>{errors.name}</span> : null}
+                                        </div>
+                                        <div className="col-md-6 form-group mt-3 mt-md-0">
+                                            <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" ref={mailRef} onChange={handleChange}
+                                                onBlur={handleBlur} />
+                                            {touched.email && errors.email ? <span className='error'>{errors.email}</span> : null}
+                                        </div>
                                     </div>
-                                    <div className="col-md-6 form-group mt-3 mt-md-0">
-                                        <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" ref={mailRef}/>
+                                    <div className="form-group mt-3">
+                                        <input type="text" className="form-control" name="subject" id="subject" placeholder="Subject" ref={subRef} onChange={handleChange}
+                                            onBlur={handleBlur} />
+                                        {touched.subject && errors.subject ? <span className='error'>{errors.subject}</span> : null}
                                     </div>
-                                </div>
-                                <div className="form-group mt-3">
-                                    <input type="text" className="form-control" name="subject" id="subject" placeholder="Subject" ref={subRef} />
-                                </div>
-                                <div className="form-group mt-3">
-                                    <textarea className="form-control" name="message" rows={5} placeholder="Message" defaultValue={""} />
-                                </div>
-                                <div className="my-3">
-                                    <div className="loading">Loading</div>
-                                    <div className="error-message" />
-                                    <div className="sent-message">Your message has been sent. Thank you!</div>
-                                </div>
-                                <div className="text-center"><button type="submit" onClick={getVal}>Send Message</button></div>
-                            </div>
+                                    <div className="form-group mt-3">
+                                        <textarea className="form-control" name="message" rows={5} placeholder="Message" onChange={handleChange}
+                                            onBlur={handleBlur} />
+                                        {touched.message && errors.message ? <span className='error'>{errors.message}</span> : null}
+                                    </div>
+                                    <div className="my-3">
+                                        <div className="loading">Loading</div>
+                                        <div className="error-message" />
+                                        <div className="sent-message">Your message has been sent. Thank you!</div>
+                                    </div>
+                                    <div className="text-center"><button type="submit" onClick={getVal}>Send Message</button></div>
+                                </Form>
+                            </Formik>
                         </div>
                     </div>
                 </div>
