@@ -1780,3 +1780,6 @@ section {
   color: red;
   padding: 0;
 }
+.fs-6{
+  font-size: 12px !important;
+}

@@ -35,8 +35,7 @@ function Appointment(props) {
     validationSchema: schema,
     onSubmit: (values) => {
       toStorage(values)
-      history.push('/list_appointment')
-      console.log(history);
+     
     },
   });
 
@@ -50,7 +49,6 @@ function Appointment(props) {
     id,
     ...values
   }
-  console.log(localdata);
 
   if (localdata === null) {
     localStorage.setItem('book_apt', JSON.stringify([data]))
@@ -58,6 +56,7 @@ function Appointment(props) {
     localdata.push(data);
     localStorage.setItem('book_apt', JSON.stringify(localdata))
   }
+  history.push('/list_appointment')
  }
   return (
     <main>
