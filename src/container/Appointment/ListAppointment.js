@@ -56,7 +56,7 @@ function ListAppointment(props) {
             </NavLink>
           </div>
         </div>
-        <h2>List of Appointments</h2>
+        <h2>List of Appointmentss</h2>
       </div>
       <div className="row">
         {
