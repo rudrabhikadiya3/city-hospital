@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as yup from "yup";
 import { Formik, Form, useFormik } from "formik";
 import "yup-phone";
 import { NavLink, useHistory } from "react-router-dom";
 
+
 function Appointment(props) {
+  const [edit, setEdit] = useState(false);
+
   const schema = yup.object().shape({
     name: yup.string().required("Please enter a name"),
     email: yup
@@ -22,7 +25,7 @@ function Appointment(props) {
       .required("Please enter message")
       .min(50, "please enter atleast 50 characters"),
   });
-  const history = useHistory()
+  const history = useHistory();
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -34,30 +37,62 @@ function Appointment(props) {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      toStorage(values)
-     
+      if(edit){
+        handleEdit(values)
+      } else {
+        toStorage(values);
+      }
     },
   });
 
-  const { errors, handleBlur, handleChange, handleSubmit, touched} = formik;
+  const { errors, handleBlur, handleChange, handleSubmit, touched, values } =
+    formik;
 
+  const toStorage = (values) => {
+    const localdata = JSON.parse(localStorage.getItem("book_apt"));
+    let id = Math.floor(Math.random() * 1000);
+    let data = {
+      id,
+      ...values,
+    };
 
- const toStorage = (values)  =>{
-  const localdata = JSON.parse(localStorage.getItem('book_apt'));
-  let id = Math.floor(Math.random()*1000);
-  let data = {
-    id,
-    ...values
+    if (localdata === null) {
+      localStorage.setItem("book_apt", JSON.stringify([data]));
+    } else {
+      localdata.push(data);
+      localStorage.setItem("book_apt", JSON.stringify(localdata));
+    }
+    history.push("/list_appointment");
+  };
+
+  useEffect(() => {
+    let localdata = JSON.parse(localStorage.getItem("book_apt"));
+    if (history.location.state && localdata !== null) {
+      setEdit(true);
+      let editData = localdata.filter(
+        (d) => d.id === history.location.state.id
+      );
+      formik.setValues(editData[0]);
+    }
+  }, []);
+
+  const handleEdit = (values) =>{
+    let localData = JSON.parse(localStorage.getItem('book_apt'));
+    
+
+    let updateData = localData.map((d) =>{
+      if (d.id === values.id) {
+          return values
+      } else {
+        return d
+      }
+    })
+
+    localStorage.setItem('book_apt', JSON.stringify(updateData));
+    
+    history.push("/list_appointment");
+
   }
-
-  if (localdata === null) {
-    localStorage.setItem('book_apt', JSON.stringify([data]))
-  } else {
-    localdata.push(data);
-    localStorage.setItem('book_apt', JSON.stringify(localdata))
-  }
-  history.push('/list_appointment')
- }
   return (
     <main>
       <section id="appointment" className="appointment">
@@ -103,6 +138,7 @@ function Appointment(props) {
                     placeholder="Your Name"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    value={values.name}
                   />
                   {errors.name && touched.name ? (
                     <span className="error">{errors.name}</span>
@@ -117,6 +153,7 @@ function Appointment(props) {
                     placeholder="Your Email"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    value={values.email}
                   />
                   {errors.email && touched.email ? (
                     <span className="error">{errors.email}</span>
@@ -131,6 +168,7 @@ function Appointment(props) {
                     placeholder="Your Phone"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    value={values.phone}
                   />
                   {errors.phone && touched.phone ? (
                     <span className="error">{errors.phone}</span>
@@ -147,6 +185,7 @@ function Appointment(props) {
                     placeholder="Appointment Date"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    value={values.date}
                   />
                   {errors.date && touched.date ? (
                     <span className="error">{errors.date}</span>
@@ -159,6 +198,7 @@ function Appointment(props) {
                     className="form-select"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    value={values.department}
                   >
                     <option value>Select Department</option>
                     <option value="Department 1">Department 1</option>
@@ -178,6 +218,7 @@ function Appointment(props) {
                   placeholder="Message"
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  value={values.message}
                 />
                 {errors.message && touched.message ? (
                   <span className="error">{errors.message}</span>
@@ -192,7 +233,11 @@ function Appointment(props) {
                 </div>
               </div>
               <div className="text-center">
-                <button type="submit">Make an Appointment</button>
+                {edit ? (
+                  <button type="submit">Edit an Appointment</button>
+                ) : (
+                  <button type="submit">Make an Appointment</button>
+                )}
               </div>
             </Form>
           </Formik>

@@ -1,39 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import { Button, Card, CardBody, CardSubtitle, CardText, CardTitle } from "reactstrap";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardSubtitle,
+  CardText,
+  CardTitle,
+} from "reactstrap";
 
 function ListAppointment(props) {
   const [data, setData] = useState([]);
 
+
   const getData = () => {
     const localdata = JSON.parse(localStorage.getItem("book_apt"));
-    // console.log(localdata);
-
     if (localdata !== null) {
-      setData(localdata)
+      setData(localdata);
     }
   };
 
-  const handleDelet = (id) =>{
-
-    let localdata = JSON.parse(localStorage.getItem('book_apt'));
+  const handleDelet = (id) => {
+    let localdata = JSON.parse(localStorage.getItem("book_apt"));
 
     let dData = localdata.filter((d) => d.id !== id);
 
-
-    localStorage.setItem('book_apt', JSON.stringify(dData))
+    localStorage.setItem("book_apt", JSON.stringify(dData));
     getData();
-  }
+  };
 
   useEffect(() => {
     getData();
   }, []);
 
   const history = useHistory();
-  const goEdit = () =>{
-    history.push('/book_appointment')
 
-  }
+  const toEdit = (id) => {
+    history.push("/book_appointment", {id:id});
+
+    // let localdata = JSON.parse(localStorage.getItem('book_apt'));
+    // let editData = localdata.filter((d) => d.id === id);
+
+    // console.log(editData[0]);
+  };
 
   return (
     <div className="container py-5">
@@ -59,27 +68,44 @@ function ListAppointment(props) {
         <h2>List of Appointmentss</h2>
       </div>
       <div className="row">
-        {
-        data.map((d,i) => {
-            return (
-              <>
-                <Card className="col-4 me-4" key={d.id}>
-                  <CardBody>
-                    <CardTitle tag="h5">{d.name}</CardTitle>
-                    <CardSubtitle className="mb-2 text-muted" tag="h6">{d.phone}</CardSubtitle>
-                    <CardSubtitle className="mb-2 text-muted" tag="h6">{d.email}</CardSubtitle>
-                    <CardSubtitle className="fs-6">{d.date}</CardSubtitle>
-                    <CardSubtitle className="fs-6 mb-3">{d.department}</CardSubtitle>
-                    <CardText className="fs-6">{d.message}</CardText>
-                    <Button className="me-2 bg-primary" onClick={() => goEdit()}>Edit</Button>
-                    <Button className="btn bg-danger" onClick={() => handleDelet(d.id)}>Delet</Button>
-                  </CardBody>
-                </Card>
-              </>
-            )
-          })
-        }
-        </div>
+        {data.map((d, i) => {
+          return (
+            <>
+              <Card className="col-4 me-4" key={d.id}>
+                <CardBody>
+                  <CardTitle tag="h5">{d.name}</CardTitle>
+                  <CardSubtitle className="mb-2" tag="h6">id:
+                    {d.id}
+                  </CardSubtitle>
+                  <CardSubtitle className="mb-2 text-muted" tag="h6">
+                    {d.phone}
+                  </CardSubtitle>
+                  <CardSubtitle className="mb-2 text-muted" tag="h6">
+                    {d.email}
+                  </CardSubtitle>
+                  <CardSubtitle className="fs-6">{d.date}</CardSubtitle>
+                  <CardSubtitle className="fs-6 mb-3">
+                    {d.department}
+                  </CardSubtitle>
+                  <CardText className="fs-6">{d.message}</CardText>
+                  <Button
+                    className="me-2 bg-primary"
+                    onClick={() => toEdit(d.id)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    className="btn bg-danger"
+                    onClick={() => handleDelet(d.id)}
+                  >
+                    Delet
+                  </Button>
+                </CardBody>
+              </Card>
+            </>
+          );
+        })}
+      </div>
     </div>
   );
 }
