@@ -34,7 +34,6 @@ function Login(props) {
       password: "",
     };
   } else if (userType === "password") {
-    console.log('ss');
     schemaObj = {
       email: yup
         .string()
@@ -53,12 +52,19 @@ function Login(props) {
     validationSchema: schema,
     onSubmit: (values, action) => {
       alert(JSON.stringify(values, null, 2));
-      // console.log(action);
       action.resetForm();
+      if (userType ==='login') {
+        handleLogin();
+      }
     },
     enableReinitialize: true,
   });
   const { errors, handleBlur, handleChange, handleSubmit, touched, values } = formik;
+
+  const handleLogin = () =>{
+    localStorage.setItem('rudra', 'rudra0987')
+  }
+
 
   return (
     <section id="appointment" className="appointment">
@@ -196,7 +202,7 @@ function Login(props) {
                 </div>
               ) : userType === "login" ? (
                 <div className="text-center mt-3">
-                  <button type="submit">Login</button>
+                  <button type="submit" onClick={handleLogin}>Login</button>
                 </div>
               ) : (
                 <div className="text-center mt-3">
