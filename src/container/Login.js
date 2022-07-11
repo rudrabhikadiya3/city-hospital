@@ -65,7 +65,6 @@ function Login(props) {
     localStorage.setItem('rudra', 'rudra0987')
   }
 
-
   return (
     <section id="appointment" className="appointment">
       <div className="container">
