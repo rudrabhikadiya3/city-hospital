@@ -52,10 +52,10 @@ function Login(props) {
     validationSchema: schema,
     onSubmit: (values, action) => {
       alert(JSON.stringify(values, null, 2));
-      action.resetForm();
       if (userType ==='login') {
         handleLogin();
       }
+      action.resetForm();
     },
     enableReinitialize: true,
   });
