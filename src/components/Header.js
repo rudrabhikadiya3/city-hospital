@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {NavLink , Link} from 'react-router-dom'
+import ThemeContext from '../context/theme.action';
 
 function Header(props) {
+
+    const theme = useContext(ThemeContext);
+    console.log(theme);
     return (
         <div className="main-header">
             <div id="topbar" className="d-flex align-items-center fixed-top">
