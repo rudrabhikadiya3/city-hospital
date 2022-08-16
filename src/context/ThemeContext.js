@@ -8,7 +8,7 @@ const initState = {
 
 export const ThemeContext = createContext();
 
-export const ThemeAction = ({ children }) => {
+export const ThemeProvider = ({ children }) => {
   const [state, dispatch] = useReducer(themeReducer, initState);
 
   const toggle_theme = (val) => {

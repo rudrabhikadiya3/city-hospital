@@ -12,12 +12,12 @@ import BookAppointment from "./container/Appointment/BookAppointment";
 import ListAppointment from "./container/Appointment/ListAppointment";
 import PublicRoute from "./container/Routes/PublicRoute";
 import PrivateRoute from "./container/Routes/PrivateRoute";
-import ThemeAction from "./context/theme.action";
+import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   return (
     <>
-    <ThemeAction>
+    <ThemeProvider>
       <Header />
       <Switch>
         <PublicRoute path="/" exact component={Home} />
@@ -30,7 +30,7 @@ function App() {
         <PrivateRoute path="/list_appointment" exact component={ListAppointment} />
       </Switch>
       <Footer />
-    </ThemeAction>
+    </ThemeProvider>
     </>
   );
 }
