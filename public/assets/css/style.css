@@ -1783,3 +1783,8 @@ section {
 .fs-6{
   font-size: 12px !important;
 }
+
+.dark{
+  background-color: #111 !important;
+  color: white !important;
+}

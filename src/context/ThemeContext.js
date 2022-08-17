@@ -8,7 +8,7 @@ const initState = {
 
 export const ThemeContext = createContext();
 
-export const ThemeProvider = ({ children }) => {
+ const ThemeProvider = ({ children }) => {
   const [state, dispatch] = useReducer(themeReducer, initState);
 
   const toggle_theme = (val) => {
@@ -28,4 +28,4 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-export default ThemeContext;
+export default ThemeProvider;

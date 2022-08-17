@@ -12,7 +12,7 @@ import BookAppointment from "./container/Appointment/BookAppointment";
 import ListAppointment from "./container/Appointment/ListAppointment";
 import PublicRoute from "./container/Routes/PublicRoute";
 import PrivateRoute from "./container/Routes/PrivateRoute";
-import { ThemeProvider } from "./context/ThemeContext";
+import  ThemeProvider  from "./context/ThemeContext";
 
 function App() {
   return (
