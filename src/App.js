@@ -13,10 +13,13 @@ import ListAppointment from "./container/Appointment/ListAppointment";
 import PublicRoute from "./container/Routes/PublicRoute";
 import PrivateRoute from "./container/Routes/PrivateRoute";
 import { ThemeProvider } from "./context/ThemeContext";
+import { store } from "./redux/store";
+import {Provider} from 'react-redux'
 
 function App() {
   return (
     <>
+    <Provider store={store}>
     <ThemeProvider>
       <Header />
       <Switch>
@@ -31,6 +34,7 @@ function App() {
       </Switch>
       <Footer />
     </ThemeProvider>
+    </Provider>
     </>
   );
 }

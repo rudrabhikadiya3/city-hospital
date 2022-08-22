@@ -41,7 +41,6 @@ function ListAppointment(props) {
     // let localdata = JSON.parse(localStorage.getItem('book_apt'));
     // let editData = localdata.filter((d) => d.id === id);
 
-    // console.log(editData[0]);
   };
 
   return (

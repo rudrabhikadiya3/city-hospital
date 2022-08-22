@@ -6,8 +6,6 @@ function Header(props) {
 
     const theme = useContext(ThemeContext);
 
-    console.log(theme.theme);
-
     const dark = theme.theme
     
     return (
