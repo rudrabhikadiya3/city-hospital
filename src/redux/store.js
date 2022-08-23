@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga'
 import thunk from 'redux-thunk'
 
 import { rootReducer } from './rootReducer'
-import mySaga from '../saga/auth.saga'
+import { rootSaga } from '../saga/rootSaga'
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware()
@@ -16,6 +16,6 @@ export const store = createStore(
 )
 
 // then run the saga
-sagaMiddleware.run(mySaga)
+sagaMiddleware.run(rootSaga)
 
 // render the application
