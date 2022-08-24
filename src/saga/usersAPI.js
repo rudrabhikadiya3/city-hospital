@@ -1,34 +1,59 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../firebase";
 
 export const newUsers = (val) => {
-  // firebase intigration
-
   return new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, val.email, val.password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-              // User is signed in
-              const uid = user.uid;
-              sendEmailVerification(auth.currentUser)
-              .then(() => {
-                // Email verification sent!
-                console.log("Email verification sent!");
-              });
-            } else {
-              // User is signed out
-            }
-          });
+          if (user) {
+            // User is signed in
+            sendEmailVerification(auth.currentUser).then(() => {
+              // Email verification sent!
+              resolve("Email verification sent!");
+            });
+          } else {
+            // User is signed out
+          }
+        });
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         if (errorCode.localeCompare("auth/email-already-in-use") === 0) {
-            console.log('This email is already in use');
+          reject("SIGNUP ERROR: This email is already in use");
+        }
+      });
+  });
+};
+
+export const LoginUser = (val) => {
+  return new Promise((resolve, reject) => {
+    signInWithEmailAndPassword(auth, val.email, val.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        if (!user.emailVerified) {
+          reject("Please verify your email");
+        } else {
+          resolve("Login Successfully");
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        if (errorCode.localeCompare("auth/wrong-password") === 0 || errorCode.localeCompare("auth/user-not-found") === 0) {
+          reject("LOGIN ERROR: Wrong password or Email");
+        } else{
+          reject("NO")
         }
       });
   });

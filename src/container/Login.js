@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import { Formik, Form, useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { sighUpAction } from "../redux/action/auth.action";
+import { loginAction, sighUpAction } from "../redux/action/auth.action";
 
 function Login(props) {
   const [userType, setUsertype] = useState("login");
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   let schemaObj, inintVal;
 
@@ -54,40 +53,36 @@ function Login(props) {
     initialValues: inintVal,
     validationSchema: schema,
     onSubmit: (values, action) => {
-
-      dispatch(sighUpAction(values))
-
-
-      // alert(JSON.stringify(values, null, 2));
-      if (userType ==='login') {
-        handleLogin();
+      if (userType === "login") {
+        dispatch(loginAction(values));
+      } else if (userType === "signup") {
+        dispatch(sighUpAction(values));
       }
-      action.resetForm();
+      // action.resetForm();
     },
     enableReinitialize: true,
   });
-  const { errors, handleBlur, handleChange, handleSubmit, touched, values } = formik;
+  const { errors, handleBlur, handleChange, handleSubmit, touched, values } =
+    formik;
 
-  const handleLogin = () =>{
-    localStorage.setItem('rudra', 'rudra0987')
-  }
+  const handleLogin = () => {};
 
   return (
     <section id="appointment" className="appointment">
       <div className="container">
         <div className="section-title">
-          {userType === "password" ?  
+          {userType === "password" ? (
             <h2>Reset password</h2>
-           : userType === "login" ? 
+          ) : userType === "login" ? (
             <h2>Login</h2>
-           : 
+          ) : (
             <h2>Sign Up</h2>
-          }
+          )}
         </div>
         <Formik values={formik}>
           <Form className="php-email-form" onSubmit={handleSubmit}>
             <div>
-              {userType === "login" || userType === "password" ? 
+              {userType === "login" || userType === "password" ? (
                 <div className="col-md-4 form-group row mx-auto">
                   <input
                     type="email"
@@ -98,10 +93,13 @@ function Login(props) {
                     onBlur={handleBlur}
                     value={values.email}
                   />
-                  {errors.email && touched.email ? 
-                    <span className="error">{errors.email}</span> : ""}
+                  {errors.email && touched.email ? (
+                    <span className="error">{errors.email}</span>
+                  ) : (
+                    ""
+                  )}
                 </div>
-               : 
+              ) : (
                 <>
                   <div className="col-md-4 form-group row mx-auto">
                     <input
@@ -113,17 +111,16 @@ function Login(props) {
                       onBlur={handleBlur}
                       value={values.name}
                     />
-                    {errors.name && touched.name ? 
+                    {errors.name && touched.name ? (
                       <span className="error">{errors.name}</span>
-                     : 
+                    ) : (
                       ""
-                    }
+                    )}
                   </div>
                 </>
-              }
+              )}
 
-              {userType === "password" ? null 
-              : userType === "login" ? (
+              {userType === "password" ? null : userType === "login" ? (
                 <div className="col-md-4 form-group mt-3 mt-md-0 row mx-auto">
                   <input
                     type="password"
@@ -153,11 +150,11 @@ function Login(props) {
                     onBlur={handleBlur}
                     value={values.email}
                   />
-                  {errors.email && touched.email ? 
+                  {errors.email && touched.email ? (
                     <span className="error">{errors.email}</span>
-                   : 
+                  ) : (
                     ""
-                  }
+                  )}
 
                   <input
                     type="password"
@@ -208,7 +205,9 @@ function Login(props) {
                 </div>
               ) : userType === "login" ? (
                 <div className="text-center mt-3">
-                  <button type="submit" onClick={handleLogin}>Login</button>
+                  <button type="submit" onClick={handleLogin}>
+                    Login
+                  </button>
                 </div>
               ) : (
                 <div className="text-center mt-3">
