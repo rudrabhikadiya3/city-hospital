@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as yup from "yup";
 import { Formik, Form, useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginAction, sighUpAction } from "../redux/action/auth.action";
 
 function Login(props) {
@@ -66,9 +66,15 @@ function Login(props) {
     formik;
 
   const handleLogin = () => {};
+  const state = useSelector((state) => state.auth);
 
+  console.log(state.error);
   return (
     <section id="appointment" className="appointment">
+      <div className="alert alert-danger auth-error" role="alert">
+        {state.error}
+      </div>
+
       <div className="container">
         <div className="section-title">
           {userType === "password" ? (

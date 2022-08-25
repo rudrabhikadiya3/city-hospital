@@ -1,10 +1,16 @@
+import * as ActionTypes from "../ActionTypes";
 
 const initVal = {
-    isError : ''
-}
-export const authReducer = (state = initVal, action) =>{
-    switch (action.type) {
-        default: return state
-    }
-
-}
+  error: "",
+};
+export const authReducer = (state = initVal, action) => {
+  switch (action.type) {
+    case ActionTypes.PASS_ERROR:
+      return {
+        // ...state,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
