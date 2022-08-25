@@ -5,18 +5,18 @@ import { LoginUser, newUsers } from "./usersAPI";
 function* signUpSaga(action) {
   try {
     const user = yield call(newUsers, action.payload);
-    console.log(user);
+    yield put({type: ActionTypes.SET_ALERT, payload: { text : user, color: "success"}})
   } catch (e) {
-    yield put({ type: "USER_FETCH_FAILED", message: e.message });
-    console.log(e);
+    yield put({type: ActionTypes.SET_ALERT, payload: { text : e, color: "error"}})
   }
 }
+
 function* LoginSaga(action) {
   try {
     const user = yield call(LoginUser, action.payload);
-    console.log(user);
-  } catch (e) {
-    console.log(e);
+    yield put({type: ActionTypes.SET_ALERT, payload: { text : user, color: "success"}})
+  } catch (e) {; 
+    yield put({type: ActionTypes.SET_ALERT, payload: { text : e, color: "error"}})
   }
 }
 

@@ -52,8 +52,6 @@ export const LoginUser = (val) => {
 
         if (errorCode.localeCompare("auth/wrong-password") === 0 || errorCode.localeCompare("auth/user-not-found") === 0) {
           reject("LOGIN ERROR: Wrong password or Email");
-        } else{
-          reject("NO")
         }
       });
   });

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import {NavLink , Link} from 'react-router-dom'
 import ThemeContext from '../context/ThemeContext';
+import Alert from './Alert';
 
 function Header(props) {
 
@@ -49,6 +50,7 @@ function Header(props) {
                     <button>theme</button>
                 </div>
             </header>
+            <Alert/>
         </div>
 
     );

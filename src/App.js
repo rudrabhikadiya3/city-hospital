@@ -14,27 +14,43 @@ import PublicRoute from "./container/Routes/PublicRoute";
 import PrivateRoute from "./container/Routes/PrivateRoute";
 import { ThemeProvider } from "./context/ThemeContext";
 import { store } from "./redux/store";
-import {Provider} from 'react-redux'
+import { Provider } from "react-redux";
+import { SnackbarProvider } from "notistack";
 
 function App() {
   return (
     <>
-    <Provider store={store}>
-    <ThemeProvider>
-      <Header />
-      <Switch>
-        <PublicRoute path="/" exact component={Home} />
-        <PublicRoute path="/departments" exact component={Departments} />
-        <PublicRoute path="/doctors" exact component={Doctors} />
-        <PublicRoute path="/about" exact component={About} />
-        <PublicRoute path="/contact" exact component={Contact} />
-        <PublicRoute path="/login" restricted={true} exact component={Login} />
-        <PrivateRoute path="/book_appointment" exact component={BookAppointment}/>
-        <PrivateRoute path="/list_appointment" exact component={ListAppointment} />
-      </Switch>
-      <Footer />
-    </ThemeProvider>
-    </Provider>
+      <SnackbarProvider maxSnack={3}>
+        <Provider store={store}>
+          <ThemeProvider>
+            <Header />
+            <Switch>
+              <PublicRoute path="/" exact component={Home} />
+              <PublicRoute path="/departments" exact component={Departments} />
+              <PublicRoute path="/doctors" exact component={Doctors} />
+              <PublicRoute path="/about" exact component={About} />
+              <PublicRoute path="/contact" exact component={Contact} />
+              <PublicRoute
+                path="/login"
+                restricted={true}
+                exact
+                component={Login}
+              />
+              <PrivateRoute
+                path="/book_appointment"
+                exact
+                component={BookAppointment}
+              />
+              <PrivateRoute
+                path="/list_appointment"
+                exact
+                component={ListAppointment}
+              />
+            </Switch>
+            <Footer />
+          </ThemeProvider>
+        </Provider>
+      </SnackbarProvider>
     </>
   );
 }
