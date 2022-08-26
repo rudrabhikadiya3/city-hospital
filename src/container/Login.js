@@ -71,13 +71,13 @@ function Login(props) {
     <section id="appointment" className="appointment">
       <div className="container">
         <div className="section-title">
-          {userType === "password" ? (
+          {userType === "password" ? 
             <h2>Reset password</h2>
-          ) : userType === "login" ? (
+           : userType === "login" ? 
             <h2>Login</h2>
-          ) : (
+           : 
             <h2>Sign Up</h2>
-          )}
+          }
         </div>
         <Formik values={formik}>
           <Form className="php-email-form" onSubmit={handleSubmit}>

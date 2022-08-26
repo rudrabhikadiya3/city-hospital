@@ -7,3 +7,7 @@ export const sighUpAction = (values) => (dispatch) => {
 export const loginAction = (values) => (dispatch)=>{
     dispatch({type: ActionTypes.LOG_IN, payload: values})
 }
+export const logOutAction = () => (dispatch) => {
+    dispatch({type: ActionTypes.LOG_OUT})
+};
+
