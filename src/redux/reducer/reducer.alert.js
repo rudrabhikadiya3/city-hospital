@@ -12,7 +12,7 @@ export const alertReducer = (state =initVal, action) =>{
                 text: action.payload.text,
                 color: action.payload.color
             }
-        case ActionTypes.SET_ALERT:
+        case ActionTypes.RESET_ALERT:
             return{
                 ...state,
                 text: "",

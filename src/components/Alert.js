@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { useSnackbar } from "notistack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { resetAlertValue } from "../redux/action/alert.action";
 function Alert(props) {
   const alert = useSelector((state) => state.alert);
   const { enqueueSnackbar } = useSnackbar();
 
-  console.log(alert);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (alert.text !== "") {
@@ -17,9 +19,16 @@ function Alert(props) {
         },
       });
     }
+
+    setTimeout(()=>{
+      dispatch(resetAlertValue())
+    }, 2000)
   }, [alert.text]);
 
-  return <></>;
+  return(
+    <>
+    </>
+  );
 }
 
 export default Alert;
