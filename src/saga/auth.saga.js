@@ -1,5 +1,6 @@
 import { call, put, takeEvery, all } from "redux-saga/effects";
 import { setAlertValue } from "../redux/action/alert.action";
+import { loggedOutAction } from "../redux/action/auth.action";
 import * as ActionTypes from "../redux/ActionTypes";
 import { LoginUser, logOutUser, newUsers } from "./usersAPI";
 
@@ -15,7 +16,8 @@ function* signUpSaga(action) {
 function* LoginSaga(action) {
   try {
     const user = yield call(LoginUser, action.payload);
-    yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: { text : user, color: "success"}}))
+    yield put(loggedOutAction(user))
+    yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: { text : "Login Successfully", color: "success"}}))
   } catch (e) {; 
     yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: { text : e, color: "error"}}))
   }

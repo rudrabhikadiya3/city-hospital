@@ -6,6 +6,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase";
+import { history } from "../history";
+
 
 export const newUsers = (val) => {
   return new Promise((resolve, reject) => {
@@ -34,7 +36,6 @@ export const newUsers = (val) => {
       });
   });
 };
-
 export const LoginUser = (val) => {
   return new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, val.email, val.password)
@@ -46,7 +47,8 @@ export const LoginUser = (val) => {
         if (!user.emailVerified) {
           reject("Please verify your email");
         } else {
-          resolve("Login Successfully");
+          resolve(user);
+          history.push("/")
         }
       })
       .catch((error) => {
@@ -68,6 +70,7 @@ export const logOutUser = () => {
       .then(() => {
         // Sign-out successful.
         resolve("LOGOUT SUCCESSFULLY");
+        history.push("/login")
       })
       .catch((error) => {
         // An error happened
