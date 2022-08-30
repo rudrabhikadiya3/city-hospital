@@ -8,8 +8,11 @@ export const loginAction = (values) => (dispatch)=>{
     dispatch({type: ActionTypes.LOG_IN, payload: values})
 }
 
-export const loggedOutAction = (data) => (dispatch) =>{
+export const loggedInAction = (data) => (dispatch) =>{
     dispatch({type: ActionTypes.LOGGED_IN, payload: data})
+}
+export const loggedOutAction = () => (dispatch) =>{
+    dispatch({type: ActionTypes.LOGGED_OUT})
 }
 
 export const logOutAction = () => (dispatch) => {

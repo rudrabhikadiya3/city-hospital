@@ -36,12 +36,13 @@ export const newUsers = (val) => {
       });
   });
 };
+
+
 export const LoginUser = (val) => {
   return new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, val.email, val.password)
       .then((userCredential) => {
         // Signed in
-
         const user = userCredential.user;
 
         if (!user.emailVerified) {
@@ -69,14 +70,11 @@ export const logOutUser = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        resolve("LOGOUT SUCCESSFULLY");
-        history.push("/login")
+        resolve({payload: "LOGOUT SUCCESSFULLY"});
       })
       .catch((error) => {
         // An error happened
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        reject(errorCode);
+        reject(error.code);
       });
   });
 };
