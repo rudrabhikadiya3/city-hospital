@@ -22,4 +22,7 @@ export const logOutAction = () => (dispatch) => {
 export const googleSighUpAction = () => (dispatch) => {
     dispatch({type: ActionTypes.GOOGLE_SIGN_UP})
 }
+export const facebookSighUpAction = () => (dispatch) => {
+    dispatch({type: ActionTypes.FACEBOOK_SIGN_UP})
+}
 

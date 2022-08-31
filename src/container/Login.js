@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import { Formik, Form, useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { googleSighUpAction, loginAction, sighUpAction } from "../redux/action/auth.action";
+import {
+  facebookSighUpAction,
+  googleSighUpAction,
+  loginAction,
+  sighUpAction,
+} from "../redux/action/auth.action";
 
 function Login(props) {
   const [userType, setUsertype] = useState("login");
@@ -66,20 +71,23 @@ function Login(props) {
     formik;
 
   const handelGoogleSignin = () => {
-    dispatch(googleSighUpAction())
+    dispatch(googleSighUpAction());
+  };
+  const handleFacebookSignin = () => {
+    dispatch(facebookSighUpAction());
   };
 
   return (
     <section id="appointment" className="appointment">
       <div className="container">
         <div className="section-title">
-          {userType === "password" ? 
+          {userType === "password" ? (
             <h2>Reset password</h2>
-           : userType === "login" ? 
+          ) : userType === "login" ? (
             <h2>Login</h2>
-           : 
+          ) : (
             <h2>Sign Up</h2>
-          }
+          )}
         </div>
         <Formik values={formik}>
           <Form className="php-email-form" onSubmit={handleSubmit}>
@@ -207,20 +215,30 @@ function Login(props) {
                 </div>
               ) : userType === "login" ? (
                 <div className="text-center mt-3">
-                  <button type="submit">
-                    Login
-                  </button>
+                  <button type="submit">Login</button>
                 </div>
               ) : (
                 <>
                   <div className="text-center mt-3">
-                  <button type="submit">Sign Up</button>
-                </div>
-                <div className="text-center mt-3">
-                  <button type="submit" onClick={handelGoogleSignin}>Sign in with google</button>
-                </div>
+                    <button type="submit">Sign Up</button>
+                  </div>
+                 
+
                 </>
               )}
+               <div className="signin-btns">
+                    <a href="#"
+                      className="signin-btn"
+                      onClick={handelGoogleSignin}>
+                      <i class="bi bi-google"></i></a>
+                    <a
+                      href="#"
+                      className="signin-btn"
+                      onClick={handleFacebookSignin}
+                    >
+                      <i className="bx bxl-facebook" />
+                    </a>
+                  </div>
             </div>
           </Form>
         </Formik>

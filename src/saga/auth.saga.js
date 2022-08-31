@@ -2,7 +2,7 @@ import { call, put, takeEvery, all } from "redux-saga/effects";
 import { setAlertValue } from "../redux/action/alert.action";
 import { loggedInAction, loggedOutAction } from "../redux/action/auth.action";
 import * as ActionTypes from "../redux/ActionTypes";
-import { googleNewUser, LoginUser, logOutUser, newUsers } from "./usersAPI";
+import { facebookNewUser, googleNewUser, LoginUser, logOutUser, newUsers } from "./usersAPI";
 
 function* signUpSaga(action) {
   try {
@@ -43,6 +43,18 @@ function* googleSignUpSaga() {
   }
 }
 
+
+function* facebookSignUpSaga() {
+  try {
+    const user = yield call(facebookNewUser);
+    yield put(loggedInAction(user))
+    yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: {text : "You are successfully login with Github", color: "success"}}))
+  } catch (e) {
+    yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: {text : e, color: "error"}}))
+    console.log(e);
+  }
+}
+
 // watchers
 function* watchSignUP() {
   yield takeEvery(ActionTypes.SIGN_UP, signUpSaga);
@@ -56,8 +68,11 @@ function* watchLogOut() {
 function* watchGoogleSignIn() {
   yield takeEvery(ActionTypes.GOOGLE_SIGN_UP, googleSignUpSaga); 
 }
+function* watchFacebookSignIn() {
+  yield takeEvery(ActionTypes.FACEBOOK_SIGN_UP, facebookSignUpSaga); 
+}
 
 // combine watcher
 export function* watchAuth() {
-  yield all([watchSignUP(), watchLogin(), watchLogOut(), watchGoogleSignIn()]);
+  yield all([watchSignUP(), watchLogin(), watchLogOut(), watchGoogleSignIn(), watchFacebookSignIn()]);
 }

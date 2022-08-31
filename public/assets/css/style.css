@@ -1783,3 +1783,26 @@ section {
 .fs-6{
   font-size: 12px !important;
 }
+
+/* google signup btn */
+.signin-btns {
+  margin-top: 25px;
+  text-align: center;
+}
+.signin-btns .signin-btn{
+  border: 2px solid #FF6337;
+  display: inline-block;
+  margin-right: 8px;
+  /* padding: 5px; */
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  font-size: 20px;
+  text-align: center;
+  transition: all .5s;
+}
+.signin-btns .signin-btn:hover{
+  background-color: #FF6337;
+  color: white;
+}

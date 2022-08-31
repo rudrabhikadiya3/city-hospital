@@ -6,6 +6,7 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
+  FacebookAuthProvider,
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { history } from "../history";
@@ -14,17 +15,12 @@ export const newUsers = (val) => {
   return new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, val.email, val.password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
         onAuthStateChanged(auth, (user) => {
           if (user) {
-            // User is signed in
             sendEmailVerification(auth.currentUser).then(() => {
-              // Email verification sent!
               resolve("Email verification sent!");
             });
-          } else {
-            // User is signed out
           }
         });
       })
@@ -98,3 +94,26 @@ export const googleNewUser = () => {
       });
   });
 };
+
+
+export const facebookNewUser = () =>{
+  return new Promise((resolve, reject) => {
+    const provider = new FacebookAuthProvider();
+
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    const credential = FacebookAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    resolve({payload: user})
+  }).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.customData.email;
+    const credential = FacebookAuthProvider.credentialFromError(error);
+    if (errorCode.localeCompare("auth/operation-not-allowed") === 0) {
+      reject("facebook provider pending by developer");
+    }
+  });
+  });
+}
