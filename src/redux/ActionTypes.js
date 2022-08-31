@@ -1,5 +1,7 @@
 
 export const SIGN_UP = 'SIGN_UP' 
+export const GOOGLE_SIGN_UP = 'GOOGLE_SIGN_UP' 
+
 export const LOG_IN = 'LOG_IN' 
 export const LOG_OUT = 'LOG_OUT' 
 export const LOGGED_IN = 'LOGGED_IN' 

@@ -4,10 +4,11 @@ import {
   sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { history } from "../history";
-
 
 export const newUsers = (val) => {
   return new Promise((resolve, reject) => {
@@ -37,7 +38,6 @@ export const newUsers = (val) => {
   });
 };
 
-
 export const LoginUser = (val) => {
   return new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, val.email, val.password)
@@ -49,7 +49,7 @@ export const LoginUser = (val) => {
           reject("Please verify your email");
         } else {
           resolve(user);
-          history.push("/")
+          history.push("/");
         }
       })
       .catch((error) => {
@@ -70,11 +70,31 @@ export const logOutUser = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        resolve({payload: "LOGOUT SUCCESSFULLY"});
+        resolve({ payload: "LOGOUT SUCCESSFULLY" });
       })
       .catch((error) => {
         // An error happened
         reject(error.code);
+      });
+  });
+};
+
+export const googleNewUser = () => {
+  return new Promise((resolve, reject) => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+        resolve({payload: user})
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        reject(errorCode)
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
       });
   });
 };

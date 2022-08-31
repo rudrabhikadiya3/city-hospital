@@ -2,7 +2,7 @@ import { call, put, takeEvery, all } from "redux-saga/effects";
 import { setAlertValue } from "../redux/action/alert.action";
 import { loggedInAction, loggedOutAction } from "../redux/action/auth.action";
 import * as ActionTypes from "../redux/ActionTypes";
-import { LoginUser, logOutUser, newUsers } from "./usersAPI";
+import { googleNewUser, LoginUser, logOutUser, newUsers } from "./usersAPI";
 
 function* signUpSaga(action) {
   try {
@@ -33,6 +33,16 @@ function* LogOutSaga(action) {
   }
 }
 
+function* googleSignUpSaga() {
+  try {
+    const user = yield call(googleNewUser);
+    yield put(loggedInAction(user))
+    yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: {text : "You are successfully login with Google", color: "success"}}))
+  } catch (e) {
+    yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: {text : e, color: "error"}}))
+  }
+}
+
 // watchers
 function* watchSignUP() {
   yield takeEvery(ActionTypes.SIGN_UP, signUpSaga);
@@ -43,7 +53,11 @@ function* watchLogin() {
 function* watchLogOut() {
   yield takeEvery(ActionTypes.LOG_OUT, LogOutSaga); 
 }
+function* watchGoogleSignIn() {
+  yield takeEvery(ActionTypes.GOOGLE_SIGN_UP, googleSignUpSaga); 
+}
 
+// combine watcher
 export function* watchAuth() {
-  yield all([watchSignUP(), watchLogin(), watchLogOut()]);
+  yield all([watchSignUP(), watchLogin(), watchLogOut(), watchGoogleSignIn()]);
 }

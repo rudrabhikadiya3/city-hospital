@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import { Formik, Form, useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { loginAction, sighUpAction } from "../redux/action/auth.action";
+import { googleSighUpAction, loginAction, sighUpAction } from "../redux/action/auth.action";
 
 function Login(props) {
   const [userType, setUsertype] = useState("login");
@@ -65,7 +65,9 @@ function Login(props) {
   const { errors, handleBlur, handleChange, handleSubmit, touched, values } =
     formik;
 
-  const handleLogin = () => {};
+  const handelGoogleSignin = () => {
+    dispatch(googleSighUpAction())
+  };
 
   return (
     <section id="appointment" className="appointment">
@@ -205,14 +207,19 @@ function Login(props) {
                 </div>
               ) : userType === "login" ? (
                 <div className="text-center mt-3">
-                  <button type="submit" onClick={handleLogin}>
+                  <button type="submit">
                     Login
                   </button>
                 </div>
               ) : (
-                <div className="text-center mt-3">
+                <>
+                  <div className="text-center mt-3">
                   <button type="submit">Sign Up</button>
                 </div>
+                <div className="text-center mt-3">
+                  <button type="submit" onClick={handelGoogleSignin}>Sign in with google</button>
+                </div>
+                </>
               )}
             </div>
           </Form>
