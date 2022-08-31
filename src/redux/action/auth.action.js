@@ -26,3 +26,7 @@ export const facebookSighUpAction = () => (dispatch) => {
     dispatch({type: ActionTypes.FACEBOOK_SIGN_UP})
 }
 
+export const resetPasswordAction = (mail) => (dispatch) => {
+    dispatch({type: ActionTypes.PASSWOED_RESET, payload:mail})
+}
+

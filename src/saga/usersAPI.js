@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   FacebookAuthProvider,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { history } from "../history";
@@ -83,11 +84,11 @@ export const googleNewUser = () => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-        resolve({payload: user})
+        resolve({ payload: user });
       })
       .catch((error) => {
         const errorCode = error.code;
-        reject(errorCode)
+        reject(errorCode);
         const errorMessage = error.message;
         const email = error.customData.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
@@ -95,25 +96,46 @@ export const googleNewUser = () => {
   });
 };
 
-
-export const facebookNewUser = () =>{
+export const facebookNewUser = () => {
   return new Promise((resolve, reject) => {
     const provider = new FacebookAuthProvider();
 
-  signInWithPopup(auth, provider)
-  .then((result) => {
-    const credential = FacebookAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    const user = result.user;
-    resolve({payload: user})
-  }).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    const email = error.customData.email;
-    const credential = FacebookAuthProvider.credentialFromError(error);
-    if (errorCode.localeCompare("auth/operation-not-allowed") === 0) {
-      reject("facebook provider pending by developer");
-    }
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+        resolve({ payload: user });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = FacebookAuthProvider.credentialFromError(error);
+        if (errorCode.localeCompare("auth/operation-not-allowed") === 0) {
+          reject("facebook provider pending by developer");
+        } else {
+          reject(errorCode);
+        }
+      });
   });
+};
+
+export const resetPassword = ({email}) => {
+  return new Promise((resolve, reject) => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        resolve({payload:"Password reset link successfully set on email"})
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        
+        if (errorCode.localeCompare("auth/invalid-value-(email),-starting-an-object-on-a-scalar-field") === 0) {
+          reject("Please enter registred email")
+        } else {
+          reject(errorCode)
+        }
+      });
   });
-}
+};

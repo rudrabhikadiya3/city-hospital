@@ -2,7 +2,7 @@ import { call, put, takeEvery, all } from "redux-saga/effects";
 import { setAlertValue } from "../redux/action/alert.action";
 import { loggedInAction, loggedOutAction } from "../redux/action/auth.action";
 import * as ActionTypes from "../redux/ActionTypes";
-import { facebookNewUser, googleNewUser, LoginUser, logOutUser, newUsers } from "./usersAPI";
+import { facebookNewUser, googleNewUser, LoginUser, logOutUser, newUsers, resetPassword } from "./usersAPI";
 
 function* signUpSaga(action) {
   try {
@@ -42,16 +42,22 @@ function* googleSignUpSaga() {
     yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: {text : e, color: "error"}}))
   }
 }
-
-
 function* facebookSignUpSaga() {
   try {
     const user = yield call(facebookNewUser);
     yield put(loggedInAction(user))
-    yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: {text : "You are successfully login with Github", color: "success"}}))
+    yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: {text : "You are successfully login with Facebook", color: "success"}}))
   } catch (e) {
     yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: {text : e, color: "error"}}))
-    console.log(e);
+  }
+}
+
+function* resetPasswordSaga(action) {
+  try {
+    const user = yield call(resetPassword, action.payload);
+    yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: {text : user.payload, color: "success"}}))
+  } catch (e) {
+    yield put(setAlertValue({type: ActionTypes.SET_ALERT, payload: {text : e, color: "error"}}))
   }
 }
 
@@ -71,8 +77,11 @@ function* watchGoogleSignIn() {
 function* watchFacebookSignIn() {
   yield takeEvery(ActionTypes.FACEBOOK_SIGN_UP, facebookSignUpSaga); 
 }
+function* watchResetPassword() {
+  yield takeEvery(ActionTypes.PASSWOED_RESET, resetPasswordSaga); 
+}
 
 // combine watcher
 export function* watchAuth() {
-  yield all([watchSignUP(), watchLogin(), watchLogOut(), watchGoogleSignIn(), watchFacebookSignIn()]);
+  yield all([watchSignUP(), watchLogin(), watchLogOut(), watchGoogleSignIn(), watchFacebookSignIn(), watchResetPassword()]);
 }

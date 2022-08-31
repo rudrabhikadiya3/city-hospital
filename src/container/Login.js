@@ -6,6 +6,7 @@ import {
   facebookSighUpAction,
   googleSighUpAction,
   loginAction,
+  resetPasswordAction,
   sighUpAction,
 } from "../redux/action/auth.action";
 
@@ -62,6 +63,8 @@ function Login(props) {
         dispatch(loginAction(values));
       } else if (userType === "signup") {
         dispatch(sighUpAction(values));
+      } else if (userType === "password") {
+        dispatch(resetPasswordAction(values));
       }
       // action.resetForm();
     },
@@ -211,7 +214,7 @@ function Login(props) {
               )}
               {userType === "password" ? (
                 <div className="text-center mt-3">
-                  <button type="submit">Send OTP</button>
+                  <button type="submit">Send reset link</button>
                 </div>
               ) : userType === "login" ? (
                 <div className="text-center mt-3">
@@ -230,7 +233,7 @@ function Login(props) {
                     <a href="#"
                       className="signin-btn"
                       onClick={handelGoogleSignin}>
-                      <i class="bi bi-google"></i></a>
+                      <i className="bi bi-google"></i></a>
                     <a
                       href="#"
                       className="signin-btn"

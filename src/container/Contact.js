@@ -33,7 +33,7 @@ function Contact(props) {
         },
     });
 
-    const { handleBlur, handleChange, handleSubmit, values, errors, touched } = formikObj;
+    const { handleBlur, handleChange, handleSubmit, errors, touched } = formikObj;
     return (
         <main>
             <section id="contact" className="contact">
